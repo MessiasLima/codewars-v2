@@ -4,6 +4,7 @@ buildscript {
     ext.ktlintVersion = '9.3.0'
     ext.gitHookPluginVersion = '1.2.0'
     ext.commitLintPluginVersion = '1.2'
+    ext.navigationComponentVersion = '2.3.0'
 
     repositories {
         google()
@@ -17,9 +18,7 @@ buildscript {
         classpath "org.jlleitschuh.gradle:ktlint-gradle:$ktlintVersion"
         classpath "ru.netris:commitlint-plugin:$commitLintPluginVersion"
         classpath "gradle.plugin.com.star-zero.gradle:githook:$gitHookPluginVersion"
-
-        // NOTE: Do not place your application dependencies here; they belong
-        // in the individual module build.gradle files
+        classpath "androidx.navigation:navigation-safe-args-gradle-plugin:$navigationComponentVersion"
     }
 }
 
