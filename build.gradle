@@ -1,0 +1,53 @@
+// Top-level build file where you can add configuration options common to all sub-projects/modules.
+buildscript {
+    ext.kotlinVersion = '1.4.0'
+    ext.ktlintVersion = '9.3.0'
+    ext.gitHookPluginVersion = '1.2.0'
+    ext.commitLintPluginVersion = '1.2'
+
+    repositories {
+        google()
+        jcenter()
+        maven { url "https://plugins.gradle.org/m2/" }
+    }
+
+    dependencies {
+        classpath "com.android.tools.build:gradle:4.0.1"
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
+        classpath "org.jlleitschuh.gradle:ktlint-gradle:$ktlintVersion"
+        classpath "ru.netris:commitlint-plugin:$commitLintPluginVersion"
+        classpath "gradle.plugin.com.star-zero.gradle:githook:$gitHookPluginVersion"
+
+        // NOTE: Do not place your application dependencies here; they belong
+        // in the individual module build.gradle files
+    }
+}
+
+apply plugin: 'com.star-zero.gradle.githook'
+apply plugin: 'ru.netris.commitlint'
+apply plugin: 'org.jlleitschuh.gradle.ktlint'
+
+allprojects {
+    repositories {
+        google()
+        jcenter()
+    }
+}
+
+task clean(type: Delete) {
+    delete rootProject.buildDir
+}
+
+githook {
+    failOnMissingHooksDir = false
+    createHooksDirIfNotExist = false
+    hooks {
+        create("commit-msg") {
+            task = "commitlint -Dmsgfile=\$1"
+        }
+
+        create("pre-commit") {
+            task = "ktlintFormat"
+        }
+    }
+}
