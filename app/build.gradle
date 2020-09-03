@@ -48,6 +48,8 @@ ext {
     testExtJunitVersion = '1.1.2'
     espressoVersion = '3.3.0'
     daggerVersion = '2.28.3'
+    liveDataKTXVersion = '2.3.0-alpha07'
+    retrofitVersion = '2.9.0'
 }
 
 dependencies {
@@ -60,6 +62,9 @@ dependencies {
     implementation "com.google.dagger:dagger-android:$daggerVersion"
     implementation "com.google.dagger:dagger-android:$daggerVersion"
     implementation "com.google.dagger:dagger-android-support:$daggerVersion"
+    implementation "androidx.lifecycle:lifecycle-livedata-ktx:$liveDataKTXVersion"
+    implementation "com.squareup.retrofit2:retrofit:$retrofitVersion"
+    implementation "com.squareup.retrofit2:converter-gson:$retrofitVersion"
 
     kapt "com.google.dagger:dagger-android-processor:$daggerVersion"
     kapt "com.google.dagger:dagger-compiler:$daggerVersion"

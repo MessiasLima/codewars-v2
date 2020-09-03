@@ -1,6 +1,7 @@
 package com.messiasjunior.codewarsv2.di
 
 import android.app.Application
+import com.messiasjunior.codewarsv2.datasource.CodewarsApiModule
 import com.messiasjunior.codewarsv2.presentation.home.HomeModule
 import dagger.BindsInstance
 import dagger.Component
@@ -10,6 +11,9 @@ import javax.inject.Singleton
 @Component(
     modules = [
         AndroidInjectionModule::class,
+
+        // Data sources
+        CodewarsApiModule::class,
 
         // Fragments
         HomeModule::class
