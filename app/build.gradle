@@ -50,6 +50,7 @@ ext {
     daggerVersion = '2.28.3'
     liveDataKTXVersion = '2.3.0-alpha07'
     retrofitVersion = '2.9.0'
+    roomVersion = '2.2.5'
 }
 
 dependencies {
@@ -65,9 +66,11 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:$liveDataKTXVersion"
     implementation "com.squareup.retrofit2:retrofit:$retrofitVersion"
     implementation "com.squareup.retrofit2:converter-gson:$retrofitVersion"
+    implementation "androidx.room:room-runtime:$roomVersion"
 
     kapt "com.google.dagger:dagger-android-processor:$daggerVersion"
     kapt "com.google.dagger:dagger-compiler:$daggerVersion"
+    kapt "androidx.room:room-compiler:$roomVersion"
 
     testImplementation "junit:junit:$junitVersion"
 
