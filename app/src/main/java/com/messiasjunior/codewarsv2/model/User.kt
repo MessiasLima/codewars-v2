@@ -1,6 +1,7 @@
 package com.messiasjunior.codewarsv2.model
 
 import android.os.Parcelable
+import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.Ignore
 import androidx.room.PrimaryKey
@@ -19,7 +20,9 @@ data class User(
     @IgnoredOnParcel
     var ranks: Ranks? = null
 
-    @Ignore
     @IgnoredOnParcel
+    @Embedded(prefix = "best_language_")
     var bestLanguage: Language? = null
+
+    var searchDate: Long? = null
 }

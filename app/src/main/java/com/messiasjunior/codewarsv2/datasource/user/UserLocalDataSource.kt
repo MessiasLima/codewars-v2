@@ -6,5 +6,7 @@ import javax.inject.Inject
 class UserLocalDataSource @Inject constructor(
     private val userDao: UserDao
 ) {
-    fun save(user: User) = userDao.save(user)
+    suspend fun save(user: User) = userDao.save(user)
+
+    suspend fun findByUsername(username: String) = userDao.findByUsername(username)
 }
