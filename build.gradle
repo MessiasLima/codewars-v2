@@ -46,7 +46,7 @@ githook {
         }
 
         create("pre-commit") {
-            task = "ktlintFormat"
+            task = "ktlintCheck"
         }
     }
 }
