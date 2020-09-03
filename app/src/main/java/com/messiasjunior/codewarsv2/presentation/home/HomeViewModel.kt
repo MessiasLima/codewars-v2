@@ -34,6 +34,20 @@ class HomeViewModel(
     }
     val userSelectedEvent: LiveData<Event<User>> = _userSelectedEvent
 
+    val isLoading: LiveData<Boolean> = MediatorLiveData<Boolean>().also { mediatorLiveData ->
+        mediatorLiveData.addSource(_userSearchResource) { userResource ->
+            mediatorLiveData.value = userResource.isLoading()
+        }
+    }
+
+    val onErrorEvent: LiveData<Event<Throwable>> = MediatorLiveData<Event<Throwable>>().apply {
+        addSource(_userSearchResource) {
+            if (it.isError()) {
+                value = Event(it.throwable!!)
+            }
+        }
+    }
+
     fun searchUser(query: String) {
         _searchUserEvent.value = query
     }
