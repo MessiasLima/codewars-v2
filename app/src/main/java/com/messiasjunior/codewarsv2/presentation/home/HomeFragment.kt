@@ -12,8 +12,10 @@ import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import com.google.android.material.snackbar.Snackbar
 import com.messiasjunior.codewarsv2.R
 import com.messiasjunior.codewarsv2.databinding.FragmentHomeBinding
+import com.messiasjunior.codewarsv2.exception.UserNotFountException
 import com.messiasjunior.codewarsv2.util.event.EventObserver
 import dagger.android.support.AndroidSupportInjection
 import javax.inject.Inject
@@ -43,10 +45,32 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setupOnUserSelectedEventHandler()
+        setupOnErrorEventHandler()
+    }
+
+    private fun setupOnUserSelectedEventHandler() {
         viewModel.userSelectedEvent.observe(
             viewLifecycleOwner,
             EventObserver {
                 findNavController().navigate(HomeFragmentDirections.showDetailsFromUser(it))
+            }
+        )
+    }
+
+    private fun setupOnErrorEventHandler() {
+        viewModel.onErrorEvent.observe(
+            viewLifecycleOwner,
+            EventObserver {
+                val message = when (it) {
+                    is UserNotFountException -> getString(
+                        R.string.user_not_found_error_message,
+                        it.message
+                    )
+                    else -> getString(R.string.generic_error_message)
+                }
+
+                Snackbar.make(requireView(), message, Snackbar.LENGTH_LONG).show()
             }
         )
     }

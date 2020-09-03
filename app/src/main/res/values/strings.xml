@@ -6,4 +6,6 @@
     <!--    Home     -->
     <string name="search_by_username">Search by username</string>
     <string name="search">Search</string>
+    <string name="user_not_found_error_message">User \"%1$s\" not found</string>
+    <string name="generic_error_message">An unexpected error occurred</string>
 </resources>
