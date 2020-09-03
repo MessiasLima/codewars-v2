@@ -12,11 +12,14 @@ import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.DefaultItemAnimator
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import com.messiasjunior.codewarsv2.R
 import com.messiasjunior.codewarsv2.databinding.FragmentHomeBinding
 import com.messiasjunior.codewarsv2.exception.UserNotFountException
 import com.messiasjunior.codewarsv2.util.event.EventObserver
+import com.messiasjunior.codewarsv2.util.resource.ResourceObserver
 import dagger.android.support.AndroidSupportInjection
 import javax.inject.Inject
 
@@ -47,6 +50,7 @@ class HomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         setupOnUserSelectedEventHandler()
         setupOnErrorEventHandler()
+        setupSavedUsersRecyclerView()
     }
 
     private fun setupOnUserSelectedEventHandler() {
@@ -73,6 +77,16 @@ class HomeFragment : Fragment() {
                 Snackbar.make(requireView(), message, Snackbar.LENGTH_LONG).show()
             }
         )
+    }
+
+    private fun setupSavedUsersRecyclerView() {
+        val userAdapter = UserAdapter(viewModel)
+        with(binding.homeUserRecyclerView) {
+            adapter = userAdapter
+            itemAnimator = DefaultItemAnimator()
+            layoutManager = LinearLayoutManager(requireContext())
+        }
+        viewModel.savedUsersResource.observe(viewLifecycleOwner, ResourceObserver(userAdapter::submitList))
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {

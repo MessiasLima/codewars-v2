@@ -9,4 +9,8 @@ class UserLocalDataSource @Inject constructor(
     suspend fun save(user: User) = userDao.save(user)
 
     suspend fun findByUsername(username: String) = userDao.findByUsername(username)
+
+    fun findOrderedByHonor() = userDao.findOrderedByHonor()
+
+    fun findOrderedBySearchDate() = userDao.findOrderedBySearchDate()
 }

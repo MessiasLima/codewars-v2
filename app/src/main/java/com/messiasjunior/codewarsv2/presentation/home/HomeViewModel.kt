@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.liveData
+import androidx.lifecycle.map
 import androidx.lifecycle.switchMap
 import com.messiasjunior.codewarsv2.model.User
 import com.messiasjunior.codewarsv2.repository.UserRepository
@@ -34,9 +35,22 @@ class HomeViewModel(
     }
     val userSelectedEvent: LiveData<Event<User>> = _userSelectedEvent
 
+    private val _sortOrder = MutableLiveData<UserRepository.SortOrder>()
+
+    val savedUsersResource = _sortOrder.switchMap {
+        liveData {
+            emit(Resource.loading())
+            emitSource(userRepository.findAll(it).map { Resource.success(it) })
+        }
+    }
+
     val isLoading: LiveData<Boolean> = MediatorLiveData<Boolean>().also { mediatorLiveData ->
         mediatorLiveData.addSource(_userSearchResource) { userResource ->
             mediatorLiveData.value = userResource.isLoading()
+        }
+
+        mediatorLiveData.addSource(savedUsersResource) { resource ->
+            mediatorLiveData.value = resource.isLoading()
         }
     }
 
@@ -48,8 +62,16 @@ class HomeViewModel(
         }
     }
 
+    init {
+        _sortOrder.value = DEFAULT_SORT_ORDER
+    }
+
     fun searchUser(query: String) {
         _searchUserEvent.value = query
+    }
+
+    fun selectUser(user: User) {
+        _userSelectedEvent.value = Event(user)
     }
 
     class Factory @Inject constructor(
@@ -59,5 +81,10 @@ class HomeViewModel(
         override fun <T : ViewModel?> create(modelClass: Class<T>): T {
             return HomeViewModel(userRepository) as T
         }
+    }
+
+    companion object {
+        @JvmStatic
+        private val DEFAULT_SORT_ORDER = UserRepository.SortOrder.SEARCH_DATE
     }
 }

@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+    <data>
+
+        <variable
+            name="user"
+            type="com.messiasjunior.codewarsv2.model.User" />
+    </data>
+
+    <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/default_card_padding">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/userListItemName"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/default_card_padding"
+                android:gravity="center"
+                android:text="@{ user.name != null ? user.name : user.username }"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="Name or username" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/userListItemRankLabel"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/default_card_padding"
+                android:gravity="center"
+                android:text="@string/rank"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
+                app:layout_constraintEnd_toStartOf="@id/userListItemBestLanguageLabel"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/userListItemName" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/userListItemRank"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@{ user.leaderboardPosition.toString() }"
+                app:layout_constraintEnd_toStartOf="@id/userListItemBestLanguage"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/userListItemRankLabel"
+                tools:text="1" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/userListItemBestLanguageLabel"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/default_card_padding"
+                android:gravity="center"
+                android:text="@string/best_language"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
+                app:layout_constraintEnd_toStartOf="@id/userListItemHonorLabel"
+                app:layout_constraintStart_toEndOf="@id/userListItemRankLabel"
+                app:layout_constraintTop_toBottomOf="@id/userListItemName" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/userListItemBestLanguage"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@{ user.bestLanguage.name + user.bestLanguage.rank.score }"
+                app:layout_constraintEnd_toStartOf="@id/userListItemHonor"
+                app:layout_constraintStart_toEndOf="@id/userListItemRank"
+                app:layout_constraintTop_toBottomOf="@id/userListItemBestLanguageLabel"
+                tools:text="Javascript (12323pts)" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/userListItemHonorLabel"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/default_card_padding"
+                android:gravity="center"
+                android:text="@string/honor"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/userListItemBestLanguageLabel"
+                app:layout_constraintTop_toBottomOf="@id/userListItemName" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/userListItemHonor"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@{ user.honor.toString() }"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/userListItemBestLanguage"
+                app:layout_constraintTop_toBottomOf="@id/userListItemHonorLabel"
+                tools:text="14234" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+</layout>

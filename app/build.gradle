@@ -51,6 +51,8 @@ ext {
     liveDataKTXVersion = '2.3.0-alpha07'
     retrofitVersion = '2.9.0'
     roomVersion = '2.2.5'
+    pagingVersion = '2.1.2'
+    materialComponentsVersion = "1.2.0"
 }
 
 dependencies {
@@ -68,6 +70,8 @@ dependencies {
     implementation "com.squareup.retrofit2:converter-gson:$retrofitVersion"
     implementation "androidx.room:room-runtime:$roomVersion"
     implementation "androidx.room:room-ktx:$roomVersion"
+    implementation "androidx.paging:paging-runtime-ktx:$pagingVersion"
+    implementation "com.google.android.material:material:$materialComponentsVersion"
 
     kapt "com.google.dagger:dagger-android-processor:$daggerVersion"
     kapt "com.google.dagger:dagger-compiler:$daggerVersion"
