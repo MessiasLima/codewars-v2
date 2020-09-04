@@ -9,7 +9,9 @@
     <string name="user_not_found_error_message">User \"%1$s\" not found</string>
     <string name="generic_error_message">An unexpected error occurred</string>
     <string name="rank">Rank</string>
-    <string name="best_language">Best language</string>
+    <string name="best_language_label">Best language</string>
+    <string name="best_language">%1$s\n(%2$d pts)</string>
     <string name="points">Points</string>
     <string name="honor">Honor</string>
+    <string name="unavailable">Unavailable</string>
 </resources>

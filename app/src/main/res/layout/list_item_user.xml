@@ -4,8 +4,20 @@
     <data>
 
         <variable
-            name="user"
-            type="com.messiasjunior.codewarsv2.model.User" />
+            name="name"
+            type="String" />
+
+        <variable
+            name="rank"
+            type="String" />
+
+        <variable
+            name="bestLanguage"
+            type="String" />
+
+        <variable
+            name="honor"
+            type="Integer" />
     </data>
 
     <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
@@ -26,7 +38,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/default_card_padding"
                 android:gravity="center"
-                android:text="@{ user.name != null ? user.name : user.username }"
+                android:text="@{ name }"
                 android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -50,7 +62,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="@{ user.leaderboardPosition.toString() }"
+                android:text="@{ rank }"
                 app:layout_constraintEnd_toStartOf="@id/userListItemBestLanguage"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/userListItemRankLabel"
@@ -62,7 +74,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/default_card_padding"
                 android:gravity="center"
-                android:text="@string/best_language"
+                android:text="@string/best_language_label"
                 android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
                 app:layout_constraintEnd_toStartOf="@id/userListItemHonorLabel"
                 app:layout_constraintStart_toEndOf="@id/userListItemRankLabel"
@@ -73,7 +85,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="@{ user.bestLanguage.name + user.bestLanguage.rank.score }"
+                android:text="@{ bestLanguage }"
                 app:layout_constraintEnd_toStartOf="@id/userListItemHonor"
                 app:layout_constraintStart_toEndOf="@id/userListItemRank"
                 app:layout_constraintTop_toBottomOf="@id/userListItemBestLanguageLabel"
@@ -96,7 +108,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="@{ user.honor.toString() }"
+                android:text="@{ honor.toString() }"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/userListItemBestLanguage"
                 app:layout_constraintTop_toBottomOf="@id/userListItemHonorLabel"

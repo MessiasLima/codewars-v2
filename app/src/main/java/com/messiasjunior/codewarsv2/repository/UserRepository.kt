@@ -25,9 +25,9 @@ class UserRepository @Inject constructor(
 
             if (user == null) {
                 user = userRemoteDataSource.searchUser(query)
+                user.bestLanguage = getBestLanguage(user)
             }
 
-            user.bestLanguage = getBestLanguage(user)
             user.searchDate = Date().time
 
             userLocalDataSource.save(user)
