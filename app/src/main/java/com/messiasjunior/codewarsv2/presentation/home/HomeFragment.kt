@@ -58,7 +58,8 @@ class HomeFragment : Fragment() {
         viewModel.userSelectedEvent.observe(
             viewLifecycleOwner,
             EventObserver {
-                findNavController().navigate(HomeFragmentDirections.showDetailsFromUser(it))
+                val directions = HomeFragmentDirections.showDetailsFromUser(it, it.displayName)
+                findNavController().navigate(directions)
             }
         )
     }

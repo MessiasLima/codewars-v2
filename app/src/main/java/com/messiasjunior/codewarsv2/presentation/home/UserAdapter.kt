@@ -46,7 +46,7 @@ class UserViewHolder(
 ) : RecyclerView.ViewHolder(binding.root) {
 
     fun bind(user: User) {
-        binding.name = if (user.name.isNullOrBlank()) user.username else user.name
+        binding.name = user.displayName
 
         binding.honor = user.honor
 

@@ -16,6 +16,12 @@ data class User(
     val leaderboardPosition: Int?,
     val honor: Int?
 ) : Parcelable {
+    @IgnoredOnParcel
+    val displayName: String
+        get() {
+            return if (name.isNullOrBlank()) username else name
+        }
+
     @Ignore
     @IgnoredOnParcel
     var ranks: Ranks? = null
@@ -24,5 +30,6 @@ data class User(
     @Embedded(prefix = "best_language_")
     var bestLanguage: Language? = null
 
+    @IgnoredOnParcel
     var searchDate: Long? = null
 }
