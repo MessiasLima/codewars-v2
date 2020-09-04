@@ -44,6 +44,10 @@ class HomeViewModel(
         }
     }
 
+    val isEmpty = savedUsersResource.map {
+        it.isSuccess() && it.data?.isEmpty() == true
+    }
+
     val isLoading: LiveData<Boolean> = MediatorLiveData<Boolean>().also { mediatorLiveData ->
         mediatorLiveData.addSource(_userSearchResource) { userResource ->
             mediatorLiveData.value = userResource.isLoading()

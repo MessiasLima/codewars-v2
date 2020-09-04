@@ -10,7 +10,7 @@
             type="com.messiasjunior.codewarsv2.presentation.home.HomeViewModel" />
     </data>
 
-    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -18,16 +18,52 @@
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/homeUserRecyclerView"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.core.widget.ContentLoadingProgressBar
             style="@style/Widget.AppCompat.ProgressBar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical|center_horizontal"
             android:indeterminate="true"
-            android:visibility="@{ viewModel.isLoading ? View.VISIBLE : View.GONE, default=gone }" />
+            android:visibility="@{ viewModel.isLoading ? View.VISIBLE : View.GONE, default=gone }"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    </FrameLayout>
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/homeCenterGuideline"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent=".5" />
+
+        <TextView
+            android:id="@+id/homeEmptyListMessageTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/user_list_empty_title"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
+            android:visibility="@{ viewModel.isEmpty ? View.VISIBLE : View.GONE, default=gone }"
+            app:layout_constraintBottom_toTopOf="@id/homeCenterGuideline"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical|center_horizontal"
+            android:layout_marginHorizontal="@dimen/default_card_padding"
+            android:text="@string/user_list_empty"
+            android:visibility="@{ viewModel.isEmpty ? View.VISIBLE : View.GONE, default=gone }"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/homeCenterGuideline" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

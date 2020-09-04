@@ -17,4 +17,6 @@
     <string name="sort_by_honor">Sort by honor</string>
     <string name="sort_by_recent">Sort by recent</string>
     <string name="sort_options">Sort options</string>
+    <string name="user_list_empty_title">List of users is empty</string>
+    <string name="user_list_empty">Please use the search button on top bar to find a user</string>
 </resources>
