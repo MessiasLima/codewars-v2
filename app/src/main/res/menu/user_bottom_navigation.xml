@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/userBottomNavigationCompleted"
+        android:icon="@drawable/ic_completed"
+        android:title="@string/completed_challenges" />
+
+    <item
+        android:id="@+id/userBottomAuthoredCompleted"
+        android:icon="@drawable/ic_authored"
+        android:title="@string/authored_challenges" />
+</menu>
