@@ -74,6 +74,10 @@ class HomeViewModel(
         _userSelectedEvent.value = Event(user)
     }
 
+    fun setSortOrder(sortOrder: UserRepository.SortOrder) {
+        _sortOrder.value = sortOrder
+    }
+
     class Factory @Inject constructor(
         private val userRepository: UserRepository
     ) : ViewModelProvider.Factory {

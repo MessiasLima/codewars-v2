@@ -14,4 +14,7 @@
     <string name="points">Points</string>
     <string name="honor">Honor</string>
     <string name="unavailable">Unavailable</string>
+    <string name="sort_by_honor">Sort by honor</string>
+    <string name="sort_by_recent">Sort by recent</string>
+    <string name="sort_options">Sort options</string>
 </resources>

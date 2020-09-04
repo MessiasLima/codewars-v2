@@ -7,4 +7,22 @@
         android:title="@string/search"
         app:actionViewClass="androidx.appcompat.widget.SearchView"
         app:showAsAction="collapseActionView|ifRoom" />
+
+    <item
+        android:icon="@drawable/ic_sort"
+        android:title="@string/sort_options"
+        app:showAsAction="always">
+        <menu>
+            <group>
+                <item
+                    android:id="@+id/menuHomeSortByRecent"
+                    android:icon="@drawable/ic_recent"
+                    android:title="@string/sort_by_recent" />
+                <item
+                    android:id="@+id/menuHomeSortByHonor"
+                    android:icon="@drawable/ic_trophy"
+                    android:title="@string/sort_by_honor" />
+            </group>
+        </menu>
+    </item>
 </menu>

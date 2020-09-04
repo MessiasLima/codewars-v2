@@ -18,6 +18,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.messiasjunior.codewarsv2.R
 import com.messiasjunior.codewarsv2.databinding.FragmentHomeBinding
 import com.messiasjunior.codewarsv2.exception.UserNotFountException
+import com.messiasjunior.codewarsv2.repository.UserRepository
 import com.messiasjunior.codewarsv2.util.event.EventObserver
 import com.messiasjunior.codewarsv2.util.resource.ResourceObserver
 import dagger.android.support.AndroidSupportInjection
@@ -86,7 +87,10 @@ class HomeFragment : Fragment() {
             itemAnimator = DefaultItemAnimator()
             layoutManager = LinearLayoutManager(requireContext())
         }
-        viewModel.savedUsersResource.observe(viewLifecycleOwner, ResourceObserver(userAdapter::submitList))
+        viewModel.savedUsersResource.observe(
+            viewLifecycleOwner,
+            ResourceObserver(userAdapter::submitList)
+        )
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -108,5 +112,21 @@ class HomeFragment : Fragment() {
                 return false
             }
         })
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.menuHomeSortByHonor -> {
+                viewModel.setSortOrder(UserRepository.SortOrder.HONOR)
+                true
+            }
+
+            R.id.menuHomeSortByRecent -> {
+                viewModel.setSortOrder(UserRepository.SortOrder.SEARCH_DATE)
+                true
+            }
+
+            else -> super.onOptionsItemSelected(item)
+        }
     }
 }
