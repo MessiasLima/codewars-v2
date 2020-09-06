@@ -42,41 +42,47 @@ class ChallengeRepository @Inject constructor(
         page: Int,
         challengeType: ChallengeType,
         user: User
-    ): Boolean {
+    ): ResponseDetails {
         return when (challengeType) {
             ChallengeType.COMPLETED -> loadAndSaveCompletedChallenges(user, page)
             ChallengeType.AUTHORED -> loadAndSaveAuthoredChallenges(user)
         }
     }
 
-    private fun loadAndSaveCompletedChallenges(user: User, page: Int): Boolean {
+    private fun loadAndSaveCompletedChallenges(user: User, page: Int): ResponseDetails {
         val response = challengeRemoteDataSource.findCompletedChallenges(user, page)
             .execute()
             .body()
 
         return if (response != null) {
             challengeLocalDataSource.saveCompletedChallenges(response.data, user)
-            true
+            ResponseDetails(
+                success = true,
+                endOfList = response.data.size < ChallengeRemoteDataSource.DEFAULT_PAGE_SIZE
+            )
         } else {
-            false
+            ResponseDetails(success = false, endOfList = false)
         }
     }
 
-    private fun loadAndSaveAuthoredChallenges(user: User): Boolean {
+    private fun loadAndSaveAuthoredChallenges(user: User): ResponseDetails {
         val response = challengeRemoteDataSource.findAuthoredChallenges(user)
             .execute()
             .body()
 
         return if (response != null) {
             challengeLocalDataSource.saveAuthoredChallenges(response.data, user)
-            true
+            ResponseDetails(
+                success = true,
+                endOfList = true
+            )
         } else {
-            false
+            ResponseDetails(success = false, endOfList = false)
         }
     }
 
     companion object {
         private const val CHALLENGES_DEFAULT_PAGE_SIZE = 20
-        private const val CHALLENGES_MAX_ELEMENTS_IN_MEMORY = 300
+        private const val CHALLENGES_MAX_ELEMENTS_IN_MEMORY = 200
     }
 }

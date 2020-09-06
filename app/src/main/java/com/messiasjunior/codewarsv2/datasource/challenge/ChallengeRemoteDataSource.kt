@@ -13,4 +13,8 @@ class ChallengeRemoteDataSource @Inject constructor(
     )
 
     fun findAuthoredChallenges(user: User) = codewarsAPI.findAuthoredChallenges(user.username)
+
+    companion object {
+        const val DEFAULT_PAGE_SIZE = 200
+    }
 }

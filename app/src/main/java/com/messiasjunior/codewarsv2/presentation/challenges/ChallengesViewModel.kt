@@ -29,6 +29,8 @@ class ChallengesViewModel(
     val onErrorEvent: LiveData<Event<Throwable>> = _onErrorEvent
 
     fun loadChallenges(challengeType: ChallengeType?, user: User?) {
+        if (_loadChallengesEvent.value != null) return
+
         if (challengeType != null && user != null) {
             _loadChallengesEvent.value = Pair(user, challengeType)
         } else {
