@@ -22,6 +22,10 @@ class CodewarsDatabaseModule {
     @Singleton
     fun provideUserDao(codewarsDatabase: CodewarsDatabase) = codewarsDatabase.userDao()
 
+    @Provides
+    @Singleton
+    fun provideChallengeDao(codewarsDatabase: CodewarsDatabase) = codewarsDatabase.challengeDao()
+
     companion object {
         private const val CODEWARS_DATABASE_NAME = "codewars-database"
     }
