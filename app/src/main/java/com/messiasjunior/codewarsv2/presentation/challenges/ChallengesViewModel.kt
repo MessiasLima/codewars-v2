@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.map
 import androidx.lifecycle.switchMap
+import com.messiasjunior.codewarsv2.model.Challenge
 import com.messiasjunior.codewarsv2.model.ChallengeType
 import com.messiasjunior.codewarsv2.model.User
 import com.messiasjunior.codewarsv2.repository.ChallengeRepository
@@ -35,6 +36,9 @@ class ChallengesViewModel(
                 IllegalArgumentException("Neither user or challenge type can be null")
             )
         }
+    }
+
+    fun onChallengeClicked(challenge: Challenge) {
     }
 
     class Factory @Inject constructor(

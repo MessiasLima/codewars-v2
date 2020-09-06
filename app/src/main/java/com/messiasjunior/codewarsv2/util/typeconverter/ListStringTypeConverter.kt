@@ -4,13 +4,13 @@ import androidx.room.TypeConverter
 
 class ListStringTypeConverter {
     @TypeConverter
-    fun listStringToString(list: List<String>): String {
-        return list.joinToString(separator = SEPARATOR)
+    fun listStringToString(list: List<String>?): String {
+        return list?.joinToString(separator = SEPARATOR) ?: ""
     }
 
     @TypeConverter
-    fun stringToListString(str: String): List<String> {
-        return str.split(SEPARATOR)
+    fun stringToListString(str: String?): List<String> {
+        return str?.split(SEPARATOR) ?: emptyList()
     }
 
     companion object {
