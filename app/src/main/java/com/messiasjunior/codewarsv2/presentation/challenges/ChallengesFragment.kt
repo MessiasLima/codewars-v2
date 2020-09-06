@@ -8,21 +8,21 @@ import android.view.ViewGroup
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.messiasjunior.codewarsv2.R
+import com.messiasjunior.codewarsv2.databinding.FragmentChallengesBinding
 import com.messiasjunior.codewarsv2.model.ChallengeType
 import com.messiasjunior.codewarsv2.model.User
+import com.messiasjunior.codewarsv2.util.resource.ResourceObserver
 import dagger.android.support.AndroidSupportInjection
-import kotlinx.android.synthetic.main.fragment_challenges.*
 import javax.inject.Inject
 
 class ChallengesFragment : Fragment() {
     @Inject
     lateinit var viewModelFactory: ChallengesViewModel.Factory
     private val viewModel by viewModels<ChallengesViewModel> { viewModelFactory }
+    private lateinit var binding: FragmentChallengesBinding
 
     override fun onAttach(context: Context) {
         AndroidSupportInjection.inject(this)
@@ -34,7 +34,10 @@ class ChallengesFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_challenges, container, false)
+        binding = FragmentChallengesBinding.inflate(inflater, container, false)
+        binding.lifecycleOwner = viewLifecycleOwner
+        binding.viewModel = viewModel
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -51,7 +54,7 @@ class ChallengesFragment : Fragment() {
 
     private fun setupChallengesRecyclerView() {
         val adapter = ChallengesAdapter(viewModel)
-        with(challengesRecyclerView) {
+        with(binding.challengesRecyclerView) {
             setAdapter(adapter)
             itemAnimator = DefaultItemAnimator()
             layoutManager = LinearLayoutManager(requireContext())
@@ -62,7 +65,7 @@ class ChallengesFragment : Fragment() {
                 )
             )
         }
-        viewModel.challenges.observe(viewLifecycleOwner, Observer(adapter::submitList))
+        viewModel.challenges.observe(viewLifecycleOwner, ResourceObserver(adapter::submitList))
     }
 
     companion object {

@@ -5,10 +5,12 @@ import com.messiasjunior.codewarsv2.model.Challenge
 import com.messiasjunior.codewarsv2.util.runOnBackground
 
 class ChallengeBoundaryCallback(
-    private val loadChallenges: (page: Int) -> ResponseDetails
+    private val loadChallenges: (page: Int) -> ResponseDetails,
+    private val onLoadingCallback: (isLoading: Boolean) -> Unit,
 ) : PagedList.BoundaryCallback<Challenge>() {
     private var currentPage = 0
-    private var reachedOnEndOfList = false
+    var reachedOnEndOfList = false
+        private set
 
     override fun onItemAtEndLoaded(itemAtEnd: Challenge) {
         if (!reachedOnEndOfList) {

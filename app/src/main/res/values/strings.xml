@@ -21,4 +21,5 @@
     <string name="user_list_empty">Please use the search button on top bar to find a user</string>
     <string name="completed_challenges">Completed challenges</string>
     <string name="authored_challenges">Authored challenges</string>
+    <string name="empty_list">Empty list</string>
 </resources>

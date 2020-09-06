@@ -23,7 +23,11 @@ class ChallengesViewModel(
         challengeRepository.findChallenges(it.first, it.second)
     }
 
-    val isEmpty = challenges.map { it.isEmpty() }
+    val isEmpty = challenges.map { it.isSuccess() && it.data?.isEmpty() == true }
+
+    val isLoading = challenges.map { it.isLoading() }
+
+    val reachedOnEndOfList = challenges.map { it.isSuccess() && it.endOfList == true }
 
     private val _onErrorEvent = MediatorLiveData<Event<Throwable>>()
     val onErrorEvent: LiveData<Event<Throwable>> = _onErrorEvent

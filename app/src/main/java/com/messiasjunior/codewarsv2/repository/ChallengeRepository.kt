@@ -1,6 +1,8 @@
 package com.messiasjunior.codewarsv2.repository
 
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.map
 import androidx.paging.Config
 import androidx.paging.PagedList
 import androidx.paging.toLiveData
@@ -9,6 +11,7 @@ import com.messiasjunior.codewarsv2.datasource.challenge.ChallengeRemoteDataSour
 import com.messiasjunior.codewarsv2.model.Challenge
 import com.messiasjunior.codewarsv2.model.ChallengeType
 import com.messiasjunior.codewarsv2.model.User
+import com.messiasjunior.codewarsv2.util.resource.Resource
 import javax.inject.Inject
 
 class ChallengeRepository @Inject constructor(
@@ -16,16 +19,28 @@ class ChallengeRepository @Inject constructor(
     private val challengeLocalDataSource: ChallengeLocalDataSource
 ) {
 
-    fun findChallenges(user: User, challengeType: ChallengeType): LiveData<PagedList<Challenge>> {
+    fun findChallenges(
+        user: User,
+        challengeType: ChallengeType
+    ): LiveData<Resource<PagedList<Challenge>>> {
+        val resource = MutableLiveData<Resource<PagedList<Challenge>>>()
+
         val config = Config(
             pageSize = CHALLENGES_DEFAULT_PAGE_SIZE,
             enablePlaceholders = false,
             maxSize = CHALLENGES_MAX_ELEMENTS_IN_MEMORY
         )
 
-        val boundaryCallback = ChallengeBoundaryCallback {
-            loadAndSaveChallenges(it, challengeType, user)
-        }
+        val boundaryCallback = ChallengeBoundaryCallback(
+            { page ->
+                loadAndSaveChallenges(page, challengeType, user)
+            },
+            { isLoading ->
+                if (isLoading) {
+                    resource.postValue(Resource.loading())
+                }
+            }
+        )
 
         val dataSourceFactory = when (challengeType) {
             ChallengeType.COMPLETED -> challengeLocalDataSource.findCompletedChallenges(user)
@@ -35,7 +50,9 @@ class ChallengeRepository @Inject constructor(
         return dataSourceFactory.toLiveData(
             config = config,
             boundaryCallback = boundaryCallback
-        )
+        ).map {
+            Resource.success(it, boundaryCallback.reachedOnEndOfList)
+        }
     }
 
     private fun loadAndSaveChallenges(

@@ -4,7 +4,8 @@ class Resource<out T> private constructor(
     val status: Status,
     val data: T? = null,
     val message: String? = null,
-    val throwable: Throwable? = null
+    val throwable: Throwable? = null,
+    val endOfList: Boolean? = null
 ) {
 
     enum class Status {
@@ -19,10 +20,11 @@ class Resource<out T> private constructor(
 
     companion object {
 
-        fun <T> success(data: T?): Resource<T> {
+        fun <T> success(data: T?, endOfList: Boolean? = null): Resource<T> {
             return Resource(
                 status = Status.SUCCESS,
-                data = data
+                data = data,
+                endOfList = endOfList
             )
         }
 
