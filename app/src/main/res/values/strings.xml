@@ -22,4 +22,5 @@
     <string name="completed_challenges">Completed challenges</string>
     <string name="authored_challenges">Authored challenges</string>
     <string name="empty_list">Empty list</string>
+    <string name="all_data_were_fetched">all data were fetched</string>
 </resources>

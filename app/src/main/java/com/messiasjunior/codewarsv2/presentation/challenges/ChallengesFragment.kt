@@ -11,9 +11,12 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.snackbar.Snackbar
+import com.messiasjunior.codewarsv2.R
 import com.messiasjunior.codewarsv2.databinding.FragmentChallengesBinding
 import com.messiasjunior.codewarsv2.model.ChallengeType
 import com.messiasjunior.codewarsv2.model.User
+import com.messiasjunior.codewarsv2.util.event.EventObserver
 import com.messiasjunior.codewarsv2.util.resource.ResourceObserver
 import dagger.android.support.AndroidSupportInjection
 import javax.inject.Inject
@@ -50,6 +53,7 @@ class ChallengesFragment : Fragment() {
         viewModel.loadChallenges(challengeType, user)
 
         setupChallengesRecyclerView()
+        setupEndOfListEventHandler()
     }
 
     private fun setupChallengesRecyclerView() {
@@ -66,6 +70,21 @@ class ChallengesFragment : Fragment() {
             )
         }
         viewModel.challenges.observe(viewLifecycleOwner, ResourceObserver(adapter::submitList))
+    }
+
+    private fun setupEndOfListEventHandler() {
+        viewModel.reachedOnEndOfListEvent.observe(
+            viewLifecycleOwner,
+            EventObserver {
+                if (it) {
+                    Snackbar.make(
+                        requireView(),
+                        R.string.all_data_were_fetched,
+                        Snackbar.LENGTH_SHORT
+                    ).show()
+                }
+            }
+        )
     }
 
     companion object {

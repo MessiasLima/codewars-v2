@@ -25,9 +25,9 @@ class ChallengesViewModel(
 
     val isEmpty = challenges.map { it.isSuccess() && it.data?.isEmpty() == true }
 
-    val isLoading = challenges.map { it.isLoading() }
-
-    val reachedOnEndOfList = challenges.map { it.isSuccess() && it.endOfList == true }
+    val reachedOnEndOfListEvent = challenges.map {
+        Event(it.isSuccess() && it.endOfList == true)
+    }
 
     private val _onErrorEvent = MediatorLiveData<Event<Throwable>>()
     val onErrorEvent: LiveData<Event<Throwable>> = _onErrorEvent
