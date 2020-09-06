@@ -3,6 +3,7 @@ package com.messiasjunior.codewarsv2.di
 import android.app.Application
 import com.messiasjunior.codewarsv2.datasource.CodewarsApiModule
 import com.messiasjunior.codewarsv2.datasource.CodewarsDatabaseModule
+import com.messiasjunior.codewarsv2.presentation.challenge.ChallengeDetailsModule
 import com.messiasjunior.codewarsv2.presentation.challenges.ChallengesModule
 import com.messiasjunior.codewarsv2.presentation.home.HomeModule
 import dagger.BindsInstance
@@ -20,7 +21,8 @@ import javax.inject.Singleton
 
         // Fragments
         HomeModule::class,
-        ChallengesModule::class
+        ChallengesModule::class,
+        ChallengeDetailsModule::class
     ]
 )
 @Singleton

@@ -13,7 +13,7 @@ class ChallengeLocalDataSource @Inject constructor(
     fun findCompletedChallenges(user: User) = challengeDao.findCompletedChallenges(user.username)
 
     fun saveAuthoredChallenges(challenges: List<Challenge>, user: User) {
-        val challengesWithCreator = challenges.map { it.copy(createdBy = user.username) }
+        val challengesWithCreator = challenges.map { it.copy(creatorUsername = user.username) }
         challengeDao.save(challengesWithCreator)
     }
 
@@ -24,4 +24,8 @@ class ChallengeLocalDataSource @Inject constructor(
         }
         challengeDao.save(challenges, userCompletedChallenges)
     }
+
+    suspend fun findChallengeById(id: String) = challengeDao.findById(id)
+
+    suspend fun update(challenge: Challenge) = challengeDao.update(challenge)
 }

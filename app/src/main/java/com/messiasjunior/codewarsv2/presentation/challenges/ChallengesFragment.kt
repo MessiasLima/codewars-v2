@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -16,6 +17,7 @@ import com.messiasjunior.codewarsv2.R
 import com.messiasjunior.codewarsv2.databinding.FragmentChallengesBinding
 import com.messiasjunior.codewarsv2.model.ChallengeType
 import com.messiasjunior.codewarsv2.model.User
+import com.messiasjunior.codewarsv2.presentation.user.UserFragmentDirections
 import com.messiasjunior.codewarsv2.util.event.EventObserver
 import com.messiasjunior.codewarsv2.util.resource.ResourceObserver
 import dagger.android.support.AndroidSupportInjection
@@ -54,6 +56,7 @@ class ChallengesFragment : Fragment() {
 
         setupChallengesRecyclerView()
         setupEndOfListEventHandler()
+        setupChallengeClickedEventHandler()
     }
 
     private fun setupChallengesRecyclerView() {
@@ -83,6 +86,16 @@ class ChallengesFragment : Fragment() {
                         Snackbar.LENGTH_SHORT
                     ).show()
                 }
+            }
+        )
+    }
+
+    private fun setupChallengeClickedEventHandler() {
+        viewModel.challengeClicked.observe(
+            viewLifecycleOwner,
+            EventObserver {
+                val directions = UserFragmentDirections.showChallengeDetails(it)
+                findNavController().navigate(directions)
             }
         )
     }

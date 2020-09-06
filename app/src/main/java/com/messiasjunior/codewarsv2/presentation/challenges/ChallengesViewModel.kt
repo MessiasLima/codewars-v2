@@ -32,6 +32,9 @@ class ChallengesViewModel(
     private val _onErrorEvent = MediatorLiveData<Event<Throwable>>()
     val onErrorEvent: LiveData<Event<Throwable>> = _onErrorEvent
 
+    private val _challengeClickedEvent = MutableLiveData<Challenge>()
+    val challengeClicked: LiveData<Event<Challenge>> = _challengeClickedEvent.map { Event(it) }
+
     fun loadChallenges(challengeType: ChallengeType?, user: User?) {
         if (_loadChallengesEvent.value != null) return
 
@@ -45,6 +48,7 @@ class ChallengesViewModel(
     }
 
     fun onChallengeClicked(challenge: Challenge) {
+        _challengeClickedEvent.value = challenge
     }
 
     class Factory @Inject constructor(

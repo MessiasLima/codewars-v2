@@ -1,5 +1,6 @@
 package com.messiasjunior.codewarsv2.datasource
 
+import com.messiasjunior.codewarsv2.model.Challenge
 import com.messiasjunior.codewarsv2.model.ChallengesApiResponse
 import com.messiasjunior.codewarsv2.model.User
 import retrofit2.Call
@@ -21,4 +22,7 @@ interface CodewarsAPI {
     fun findAuthoredChallenges(
         @Path("username") username: String
     ): Call<ChallengesApiResponse>
+
+    @GET("code-challenges/{id}")
+    fun findChallengeById(@Path("id") id: String): Call<Challenge>
 }

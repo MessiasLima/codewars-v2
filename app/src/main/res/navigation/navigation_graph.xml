@@ -28,6 +28,19 @@
         <argument
             android:name="toolbarTitle"
             app:argType="string" />
+        <action
+            android:id="@+id/showChallengeDetails"
+            app:destination="@id/challengeDetailsFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/challengeDetailsFragment"
+        android:name="com.messiasjunior.codewarsv2.presentation.challenge.ChallengeDetailsFragment"
+        android:label=""
+        tools:layout="@layout/fragment_challenge_details">
+        <argument
+            android:name="challenge"
+            app:argType="com.messiasjunior.codewarsv2.model.Challenge" />
     </fragment>
 
 </navigation>

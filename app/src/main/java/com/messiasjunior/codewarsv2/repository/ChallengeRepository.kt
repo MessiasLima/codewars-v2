@@ -98,6 +98,21 @@ class ChallengeRepository @Inject constructor(
         }
     }
 
+    suspend fun getChallengeDetails(id: String): Resource<Challenge> {
+        return try {
+            var challenge = challengeLocalDataSource.findChallengeById(id)
+
+            if (challenge.description.isNullOrBlank()) {
+                challenge = challengeRemoteDataSource.findChallengeById(id)
+                challengeLocalDataSource.update(challenge)
+            }
+
+            Resource.success(challenge)
+        } catch (throwable: Throwable) {
+            Resource.error(throwable = throwable)
+        }
+    }
+
     companion object {
         private const val CHALLENGES_DEFAULT_PAGE_SIZE = 20
         private const val CHALLENGES_MAX_ELEMENTS_IN_MEMORY = 200
