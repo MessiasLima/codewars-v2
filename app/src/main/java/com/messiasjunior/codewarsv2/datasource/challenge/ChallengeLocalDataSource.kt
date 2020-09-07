@@ -13,17 +13,27 @@ class ChallengeLocalDataSource @Inject constructor(
     fun findCompletedChallenges(user: User) = challengeDao.findCompletedChallenges(user.username)
 
     fun saveAuthoredChallenges(challenges: List<Challenge>, user: User) {
-        val challengesWithCreator = challenges.map {
-            it.copy(creatorUsername = user.username)
-        }
+        val challengesWithCreator = challenges
+            .filter { it.name != null }
+            .map { it.copy(creatorUsername = user.username) }
+
         challengeDao.save(challengesWithCreator)
     }
 
     fun saveCompletedChallenges(challenges: List<Challenge>, user: User) {
         val userCompletedChallenges = mutableListOf<UserCompletedChallenge>()
-        challenges.forEach {
-            userCompletedChallenges.add(UserCompletedChallenge(user.username, it.codewarsID))
-        }
+
+        challenges
+            .filter { it.name != null }
+            .forEach {
+                userCompletedChallenges.add(
+                    UserCompletedChallenge(
+                        user.username,
+                        it.codewarsID
+                    )
+                )
+            }
+
         challengeDao.save(challenges, userCompletedChallenges)
     }
 

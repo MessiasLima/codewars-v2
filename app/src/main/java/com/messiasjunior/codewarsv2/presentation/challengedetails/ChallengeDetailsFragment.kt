@@ -11,6 +11,7 @@ import androidx.navigation.fragment.navArgs
 import com.google.android.material.snackbar.Snackbar
 import com.messiasjunior.codewarsv2.R
 import com.messiasjunior.codewarsv2.databinding.FragmentChallengeDetailsBinding
+import com.messiasjunior.codewarsv2.exception.ChallengeNotFoundException
 import dagger.android.support.AndroidSupportInjection
 import java.io.IOException
 import javax.inject.Inject
@@ -48,6 +49,7 @@ class ChallengeDetailsFragment : Fragment() {
     private fun setupErrorHandling() {
         viewModel.onError.observe(viewLifecycleOwner) {
             val message = when (it) {
+                is ChallengeNotFoundException -> R.string.challenge_not_found
                 is IOException -> R.string.verify_network_connection
                 else -> R.string.generic_error_message
             }

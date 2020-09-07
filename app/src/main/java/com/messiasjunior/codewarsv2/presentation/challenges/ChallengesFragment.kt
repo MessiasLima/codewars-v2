@@ -55,7 +55,7 @@ class ChallengesFragment : Fragment() {
 
         challengeType = requireArguments()
             .getSerializable(ARGUMENT_CHALLENGE_TYPE) as ChallengeType?
-        user = requireArguments().getParcelable<User>(ARGUMENT_USER)
+        user = requireArguments().getParcelable(ARGUMENT_USER)
 
         viewModel.loadChallenges(challengeType, user)
 
