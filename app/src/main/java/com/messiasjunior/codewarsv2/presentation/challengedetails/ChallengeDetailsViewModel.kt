@@ -34,8 +34,18 @@ class ChallengeDetailsViewModel(
 
     val isLoading = _challengeDetailsResource.map { it.isLoading() }
 
-    fun setChallenge(challenge: Challenge) {
-        _challenge.value = challenge
+    val onError: LiveData<Throwable> = MediatorLiveData<Throwable>().apply {
+        addSource(_challengeDetailsResource) {
+            if (it.isError()) {
+                value = it.throwable
+            }
+        }
+    }
+
+    fun setChallenge(challenge: Challenge, forceUpdate: Boolean = false) {
+        if (_challenge.value == null || forceUpdate) {
+            _challenge.value = challenge
+        }
     }
 
     class Factory @Inject constructor(

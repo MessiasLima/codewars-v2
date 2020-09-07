@@ -8,8 +8,11 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
+import com.google.android.material.snackbar.Snackbar
+import com.messiasjunior.codewarsv2.R
 import com.messiasjunior.codewarsv2.databinding.FragmentChallengeDetailsBinding
 import dagger.android.support.AndroidSupportInjection
+import java.io.IOException
 import javax.inject.Inject
 
 class ChallengeDetailsFragment : Fragment() {
@@ -39,5 +42,19 @@ class ChallengeDetailsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel.setChallenge(args.challenge)
+        setupErrorHandling()
+    }
+
+    private fun setupErrorHandling() {
+        viewModel.onError.observe(viewLifecycleOwner) {
+            val message = when (it) {
+                is IOException -> R.string.verify_network_connection
+                else -> R.string.generic_error_message
+            }
+
+            Snackbar.make(requireView(), message, Snackbar.LENGTH_INDEFINITE)
+                .setAction(R.string.try_again) { viewModel.setChallenge(args.challenge, true) }
+                .show()
+        }
     }
 }
