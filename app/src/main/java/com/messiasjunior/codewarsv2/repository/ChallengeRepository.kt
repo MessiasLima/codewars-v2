@@ -31,12 +31,8 @@ class ChallengeRepository @Inject constructor(
         )
 
         val boundaryCallback = ChallengeBoundaryCallback(
-            { page ->
-                this.loadAndSaveChallenges(page, challengeType, user)
-            },
-            {
-                resource.postValue(Resource.loading(shouldShowLoading = it))
-            }
+            { page -> this.loadAndSaveChallenges(page, challengeType, user) },
+            { resource.postValue(Resource.loading(shouldShowLoading = it)) }
         )
 
         val dataSourceFactory = when (challengeType) {

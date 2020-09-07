@@ -35,8 +35,12 @@ class ChallengesViewModel(
         }
     }
 
-    val reachedOnEndOfListEvent = challenges.map {
-        Event(it.isSuccess() && it.endOfList == true)
+    val reachedOnEndOfListEvent: LiveData<Boolean> = MediatorLiveData<Boolean>().apply {
+        addSource(challenges) {
+            if (it.isSuccess()) {
+                value = it.endOfList
+            }
+        }
     }
 
     private val _onErrorEvent = MediatorLiveData<Event<Throwable>>()

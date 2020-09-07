@@ -10,7 +10,7 @@ import kotlinx.android.parcel.Parcelize
 data class Challenge(
     @PrimaryKey
     val id: String,
-    val name: String,
+    val name: String?,
     val description: String?,
     val tags: List<String>?,
     val url: String?,

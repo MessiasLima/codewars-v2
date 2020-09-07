@@ -11,9 +11,8 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.DividerItemDecoration.VERTICAL
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.google.android.material.snackbar.Snackbar
-import com.messiasjunior.codewarsv2.R
 import com.messiasjunior.codewarsv2.databinding.FragmentChallengesBinding
 import com.messiasjunior.codewarsv2.model.ChallengeType
 import com.messiasjunior.codewarsv2.model.User
@@ -28,6 +27,7 @@ class ChallengesFragment : Fragment() {
     lateinit var viewModelFactory: ChallengesViewModel.Factory
     private val viewModel by viewModels<ChallengesViewModel> { viewModelFactory }
     private lateinit var binding: FragmentChallengesBinding
+    private lateinit var challengesAdapter: ChallengesAdapter
 
     override fun onAttach(context: Context) {
         AndroidSupportInjection.inject(this)
@@ -55,39 +55,27 @@ class ChallengesFragment : Fragment() {
         viewModel.loadChallenges(challengeType, user)
 
         setupChallengesRecyclerView()
-        setupEndOfListEventHandler()
         setupChallengeClickedEventHandler()
     }
 
     private fun setupChallengesRecyclerView() {
-        val adapter = ChallengesAdapter(viewModel)
+        challengesAdapter = ChallengesAdapter(viewModel)
+
         with(binding.challengesRecyclerView) {
-            setAdapter(adapter)
+            adapter = challengesAdapter
             itemAnimator = DefaultItemAnimator()
             layoutManager = LinearLayoutManager(requireContext())
-            addItemDecoration(
-                DividerItemDecoration(
-                    requireContext(),
-                    DividerItemDecoration.VERTICAL
-                )
-            )
+            addItemDecoration(DividerItemDecoration(requireContext(), VERTICAL))
         }
-        viewModel.challenges.observe(viewLifecycleOwner, ResourceObserver(adapter::submitList))
-    }
 
-    private fun setupEndOfListEventHandler() {
-        viewModel.reachedOnEndOfListEvent.observe(
+        viewModel.challenges.observe(
             viewLifecycleOwner,
-            EventObserver {
-                if (it) {
-                    Snackbar.make(
-                        requireView(),
-                        R.string.all_data_were_fetched,
-                        Snackbar.LENGTH_SHORT
-                    ).show()
-                }
-            }
+            ResourceObserver(challengesAdapter::submitList)
         )
+
+        viewModel.reachedOnEndOfListEvent.observe(viewLifecycleOwner) {
+            challengesAdapter.showEndOfListIndicator = it
+        }
     }
 
     private fun setupChallengeClickedEventHandler() {
