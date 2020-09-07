@@ -1,4 +1,4 @@
-package com.messiasjunior.codewarsv2.presentation.challenge
+package com.messiasjunior.codewarsv2.presentation.challengedetails
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData

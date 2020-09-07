@@ -1,4 +1,4 @@
-package com.messiasjunior.codewarsv2.presentation.challenge
+package com.messiasjunior.codewarsv2.presentation.challengedetails
 
 import com.messiasjunior.codewarsv2.di.FragmentScope
 import dagger.Module
