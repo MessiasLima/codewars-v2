@@ -7,7 +7,7 @@
 
         <variable
             name="viewModel"
-            type="com.messiasjunior.codewarsv2.presentation.challenge.ChallengeDetailsViewModel" />
+            type="com.messiasjunior.codewarsv2.presentation.challengedetails.ChallengeDetailsViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -15,7 +15,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:padding="@dimen/default_card_padding"
-        tools:context=".presentation.challenge.ChallengeDetailsFragment">
+        tools:context=".presentation.challengedetails.ChallengeDetailsFragment">
 
         <TextView
             android:id="@+id/challengeDetailsName"

@@ -6,7 +6,7 @@ import com.messiasjunior.codewarsv2.util.runOnBackground
 
 class ChallengeBoundaryCallback(
     private val loadChallenges: (page: Int) -> ResponseDetails,
-    private val onLoadingCallback: (isLoading: Boolean) -> Unit,
+    private val updateLoadingStatus: (isLoading: Boolean) -> Unit,
 ) : PagedList.BoundaryCallback<Challenge>() {
     private var currentPage = 0
     var reachedOnEndOfList = false
@@ -23,7 +23,9 @@ class ChallengeBoundaryCallback(
     }
 
     private fun getRemoteChallengesAndSave(page: Int) = runOnBackground {
+        updateLoadingStatus.invoke(true)
         val details = loadChallenges(page)
+        updateLoadingStatus.invoke(false)
         if (details.success) currentPage++
         reachedOnEndOfList = details.endOfList
     }

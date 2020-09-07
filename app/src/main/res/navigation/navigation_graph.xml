@@ -35,7 +35,7 @@
 
     <fragment
         android:id="@+id/challengeDetailsFragment"
-        android:name="com.messiasjunior.codewarsv2.presentation.challenge.ChallengeDetailsFragment"
+        android:name="com.messiasjunior.codewarsv2.presentation.challengedetails.ChallengeDetailsFragment"
         android:label=""
         tools:layout="@layout/fragment_challenge_details">
         <argument

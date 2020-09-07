@@ -1,8 +1,7 @@
 package com.messiasjunior.codewarsv2.repository
 
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.map
+import androidx.lifecycle.MediatorLiveData
 import androidx.paging.Config
 import androidx.paging.PagedList
 import androidx.paging.toLiveData
@@ -23,22 +22,20 @@ class ChallengeRepository @Inject constructor(
         user: User,
         challengeType: ChallengeType
     ): LiveData<Resource<PagedList<Challenge>>> {
-        val resource = MutableLiveData<Resource<PagedList<Challenge>>>()
+        val resource = MediatorLiveData<Resource<PagedList<Challenge>>>()
 
         val config = Config(
             pageSize = CHALLENGES_DEFAULT_PAGE_SIZE,
-            enablePlaceholders = false,
+            enablePlaceholders = true,
             maxSize = CHALLENGES_MAX_ELEMENTS_IN_MEMORY
         )
 
         val boundaryCallback = ChallengeBoundaryCallback(
             { page ->
-                loadAndSaveChallenges(page, challengeType, user)
+                this.loadAndSaveChallenges(page, challengeType, user)
             },
-            { isLoading ->
-                if (isLoading) {
-                    resource.postValue(Resource.loading())
-                }
+            {
+                resource.postValue(Resource.loading(shouldShowLoading = it))
             }
         )
 
@@ -47,12 +44,16 @@ class ChallengeRepository @Inject constructor(
             ChallengeType.AUTHORED -> challengeLocalDataSource.findAuthoredChallenges(user)
         }
 
-        return dataSourceFactory.toLiveData(
+        val pagedListLiveData = dataSourceFactory.toLiveData(
             config = config,
             boundaryCallback = boundaryCallback
-        ).map {
-            Resource.success(it, boundaryCallback.reachedOnEndOfList)
+        )
+
+        resource.addSource(pagedListLiveData) {
+            resource.value = Resource.success(it, boundaryCallback.reachedOnEndOfList)
         }
+
+        return resource
     }
 
     private fun loadAndSaveChallenges(

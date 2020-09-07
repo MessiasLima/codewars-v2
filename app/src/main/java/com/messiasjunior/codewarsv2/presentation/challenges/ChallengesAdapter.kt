@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.messiasjunior.codewarsv2.R
 import com.messiasjunior.codewarsv2.databinding.ListItemChallengeBinding
 import com.messiasjunior.codewarsv2.model.Challenge
 
@@ -16,8 +17,9 @@ class ChallengesAdapter(
     }
 
     override fun onBindViewHolder(holder: ChallengesViewHolder, position: Int) {
-        getItem(position)?.let { challenge ->
-            holder.bind(challenge)
+        val challenge = getItem(position)
+        holder.bind(challenge)
+        challenge?.let {
             holder.itemView.setOnClickListener {
                 challengesViewModel.onChallengeClicked(challenge)
             }
@@ -41,7 +43,7 @@ class ChallengesViewHolder private constructor(
     private val binding: ListItemChallengeBinding
 ) : RecyclerView.ViewHolder(binding.root) {
     fun bind(challenge: Challenge?) {
-        challenge?.let(binding::setChallenge)
+        binding.challengeName = challenge?.name ?: itemView.context.getString(R.string.loading)
     }
 
     companion object {

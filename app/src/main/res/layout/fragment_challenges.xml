@@ -28,5 +28,14 @@
             android:text="@string/empty_list"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
             android:visibility="@{ viewModel.isEmpty ? View.VISIBLE : View.GONE,default=gone }" />
+
+        <androidx.core.widget.ContentLoadingProgressBar
+            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top"
+            android:indeterminate="true"
+            android:visibility="@{ viewModel.isLoading ? View.VISIBLE : View.GONE }"
+            tools:visibility="visible" />
     </FrameLayout>
 </layout>

@@ -23,7 +23,17 @@ class ChallengesViewModel(
         challengeRepository.findChallenges(it.first, it.second)
     }
 
-    val isEmpty = challenges.map { it.isSuccess() && it.data?.isEmpty() == true }
+    val isLoading = challenges.map {
+        it.isLoading() && it.shouldShowLoading == true
+    }
+
+    val isEmpty: LiveData<Boolean> = MediatorLiveData<Boolean>().apply {
+        addSource(challenges) {
+            if (it.isSuccess()) {
+                value = it.data?.isEmpty() == true
+            }
+        }
+    }
 
     val reachedOnEndOfListEvent = challenges.map {
         Event(it.isSuccess() && it.endOfList == true)
@@ -36,7 +46,7 @@ class ChallengesViewModel(
     val challengeClicked: LiveData<Event<Challenge>> = _challengeClickedEvent.map { Event(it) }
 
     fun loadChallenges(challengeType: ChallengeType?, user: User?) {
-        if (_loadChallengesEvent.value != null) return
+        if (_loadChallengesEvent.value != null) return // To avoid duplicate calls
 
         if (challengeType != null && user != null) {
             _loadChallengesEvent.value = Pair(user, challengeType)

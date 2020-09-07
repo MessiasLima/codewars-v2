@@ -5,7 +5,8 @@ class Resource<out T> private constructor(
     val data: T? = null,
     val message: String? = null,
     val throwable: Throwable? = null,
-    val endOfList: Boolean? = null
+    val endOfList: Boolean? = null,
+    val shouldShowLoading: Boolean? = null
 ) {
 
     enum class Status {
@@ -37,10 +38,11 @@ class Resource<out T> private constructor(
             )
         }
 
-        fun <T> loading(data: T? = null): Resource<T> {
+        fun <T> loading(data: T? = null, shouldShowLoading: Boolean = true): Resource<T> {
             return Resource(
                 Status.LOADING,
-                data
+                data,
+                shouldShowLoading = shouldShowLoading
             )
         }
     }
