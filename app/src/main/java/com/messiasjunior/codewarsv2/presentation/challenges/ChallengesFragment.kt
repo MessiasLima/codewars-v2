@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -20,7 +21,6 @@ import com.messiasjunior.codewarsv2.model.ChallengeType
 import com.messiasjunior.codewarsv2.model.User
 import com.messiasjunior.codewarsv2.presentation.user.UserFragmentDirections
 import com.messiasjunior.codewarsv2.util.event.EventObserver
-import com.messiasjunior.codewarsv2.util.resource.ResourceObserver
 import dagger.android.support.AndroidSupportInjection
 import java.io.IOException
 import javax.inject.Inject
@@ -74,10 +74,7 @@ class ChallengesFragment : Fragment() {
             addItemDecoration(DividerItemDecoration(requireContext(), VERTICAL))
         }
 
-        viewModel.challenges.observe(
-            viewLifecycleOwner,
-            ResourceObserver(challengesAdapter::submitList)
-        )
+        viewModel.challenges.observe(viewLifecycleOwner, Observer(challengesAdapter::submitList))
 
         viewModel.reachedOnEndOfListEvent.observe(viewLifecycleOwner) {
             challengesAdapter.showEndOfListIndicator = it

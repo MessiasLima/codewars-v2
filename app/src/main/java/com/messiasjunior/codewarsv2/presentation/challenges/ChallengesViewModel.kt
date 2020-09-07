@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.map
 import androidx.lifecycle.switchMap
+import androidx.paging.PagedList
 import com.messiasjunior.codewarsv2.model.Challenge
 import com.messiasjunior.codewarsv2.model.ChallengeType
 import com.messiasjunior.codewarsv2.model.User
@@ -19,16 +20,25 @@ class ChallengesViewModel(
 ) : ViewModel() {
     private val _loadChallengesEvent = MutableLiveData<Pair<User, ChallengeType>>()
 
-    val challenges = _loadChallengesEvent.switchMap {
+    private val _challengesResource = _loadChallengesEvent.switchMap {
         challengeRepository.findChallenges(it.first, it.second)
     }
 
-    val isLoading = challenges.map {
+    val challenges: LiveData<PagedList<Challenge>> =
+        MediatorLiveData<PagedList<Challenge>>().apply {
+            addSource(_challengesResource) {
+                if (it.isSuccess()) {
+                    value = it.data
+                }
+            }
+        }
+
+    val isLoading = _challengesResource.map {
         it.isLoading() && it.shouldShowLoading == true
     }
 
     val isEmpty: LiveData<Boolean> = MediatorLiveData<Boolean>().apply {
-        addSource(challenges) {
+        addSource(_challengesResource) {
             if (it.isSuccess()) {
                 value = it.data?.isEmpty() == true
             }
@@ -36,7 +46,7 @@ class ChallengesViewModel(
     }
 
     val reachedOnEndOfListEvent: LiveData<Boolean> = MediatorLiveData<Boolean>().apply {
-        addSource(challenges) {
+        addSource(_challengesResource) {
             if (it.isSuccess()) {
                 value = it.endOfList
             }
@@ -44,7 +54,7 @@ class ChallengesViewModel(
     }
 
     private val _onErrorEvent = MediatorLiveData<Event<Throwable>>().apply {
-        addSource(challenges) {
+        addSource(_challengesResource) {
             if (it.isError()) {
                 value = Event(it.throwable!!)
             }
