@@ -32,7 +32,8 @@ class ChallengeRepository @Inject constructor(
 
         val boundaryCallback = ChallengeBoundaryCallback(
             { page -> this.loadAndSaveChallenges(page, challengeType, user) },
-            { resource.postValue(Resource.loading(shouldShowLoading = it)) }
+            { resource.postValue(Resource.loading(shouldShowLoading = it)) },
+            { resource.postValue(Resource.error(throwable = it)) }
         )
 
         val dataSourceFactory = when (challengeType) {
@@ -57,9 +58,13 @@ class ChallengeRepository @Inject constructor(
         challengeType: ChallengeType,
         user: User
     ): ResponseDetails {
-        return when (challengeType) {
-            ChallengeType.COMPLETED -> loadAndSaveCompletedChallenges(user, page)
-            ChallengeType.AUTHORED -> loadAndSaveAuthoredChallenges(user)
+        return try {
+            when (challengeType) {
+                ChallengeType.COMPLETED -> loadAndSaveCompletedChallenges(user, page)
+                ChallengeType.AUTHORED -> loadAndSaveAuthoredChallenges(user)
+            }
+        } catch (throwable: Throwable) {
+            ResponseDetails(success = false, throwable = throwable)
         }
     }
 

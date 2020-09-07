@@ -13,6 +13,8 @@ import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.DividerItemDecoration.VERTICAL
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.snackbar.Snackbar
+import com.messiasjunior.codewarsv2.R
 import com.messiasjunior.codewarsv2.databinding.FragmentChallengesBinding
 import com.messiasjunior.codewarsv2.model.ChallengeType
 import com.messiasjunior.codewarsv2.model.User
@@ -20,6 +22,7 @@ import com.messiasjunior.codewarsv2.presentation.user.UserFragmentDirections
 import com.messiasjunior.codewarsv2.util.event.EventObserver
 import com.messiasjunior.codewarsv2.util.resource.ResourceObserver
 import dagger.android.support.AndroidSupportInjection
+import java.io.IOException
 import javax.inject.Inject
 
 class ChallengesFragment : Fragment() {
@@ -28,6 +31,8 @@ class ChallengesFragment : Fragment() {
     private val viewModel by viewModels<ChallengesViewModel> { viewModelFactory }
     private lateinit var binding: FragmentChallengesBinding
     private lateinit var challengesAdapter: ChallengesAdapter
+    private var user: User? = null
+    private var challengeType: ChallengeType? = null
 
     override fun onAttach(context: Context) {
         AndroidSupportInjection.inject(this)
@@ -48,14 +53,15 @@ class ChallengesFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val challengeType = requireArguments()
+        challengeType = requireArguments()
             .getSerializable(ARGUMENT_CHALLENGE_TYPE) as ChallengeType?
-        val user = requireArguments().getParcelable<User>(ARGUMENT_USER)
+        user = requireArguments().getParcelable<User>(ARGUMENT_USER)
 
         viewModel.loadChallenges(challengeType, user)
 
         setupChallengesRecyclerView()
         setupChallengeClickedEventHandler()
+        setupErrorEventHandler()
     }
 
     private fun setupChallengesRecyclerView() {
@@ -84,6 +90,24 @@ class ChallengesFragment : Fragment() {
             EventObserver {
                 val directions = UserFragmentDirections.showChallengeDetails(it)
                 findNavController().navigate(directions)
+            }
+        )
+    }
+
+    private fun setupErrorEventHandler() {
+        viewModel.onErrorEvent.observe(
+            viewLifecycleOwner,
+            EventObserver {
+                val message = when (it) {
+                    is IOException -> getString(R.string.verify_network_connection)
+                    else -> getString(R.string.generic_error_message)
+                }
+
+                Snackbar.make(requireView(), message, Snackbar.LENGTH_INDEFINITE)
+                    .setAction(R.string.try_again) {
+                        viewModel.loadChallenges(challengeType, user, force = true)
+                    }
+                    .show()
             }
         )
     }

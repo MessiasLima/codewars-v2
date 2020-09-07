@@ -43,14 +43,20 @@ class ChallengesViewModel(
         }
     }
 
-    private val _onErrorEvent = MediatorLiveData<Event<Throwable>>()
+    private val _onErrorEvent = MediatorLiveData<Event<Throwable>>().apply {
+        addSource(challenges) {
+            if (it.isError()) {
+                value = Event(it.throwable!!)
+            }
+        }
+    }
     val onErrorEvent: LiveData<Event<Throwable>> = _onErrorEvent
 
     private val _challengeClickedEvent = MutableLiveData<Challenge>()
     val challengeClicked: LiveData<Event<Challenge>> = _challengeClickedEvent.map { Event(it) }
 
-    fun loadChallenges(challengeType: ChallengeType?, user: User?) {
-        if (_loadChallengesEvent.value != null) return // To avoid duplicate calls
+    fun loadChallenges(challengeType: ChallengeType?, user: User?, force: Boolean = false) {
+        if (_loadChallengesEvent.value != null && !force) return // To avoid duplicate calls
 
         if (challengeType != null && user != null) {
             _loadChallengesEvent.value = Pair(user, challengeType)
