@@ -14,6 +14,12 @@ class ChallengesAdapter(
     private val challengesViewModel: ChallengesViewModel
 ) : PagedListAdapter<Challenge, RecyclerView.ViewHolder>(DIFF_UTIL) {
     var showEndOfListIndicator: Boolean = false
+        set(value) {
+            if (value) {
+                notifyItemInserted(itemCount)
+            }
+            field = value
+        }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return when (viewType) {
@@ -55,7 +61,7 @@ class ChallengesAdapter(
 
         private val DIFF_UTIL = object : DiffUtil.ItemCallback<Challenge>() {
             override fun areItemsTheSame(oldItem: Challenge, newItem: Challenge): Boolean {
-                return oldItem.id == newItem.id
+                return oldItem.codewarsID == newItem.codewarsID
             }
 
             override fun areContentsTheSame(oldItem: Challenge, newItem: Challenge): Boolean {

@@ -97,14 +97,15 @@ class ChallengeRepository @Inject constructor(
 
     suspend fun getChallengeDetails(id: String): Resource<Challenge> {
         return try {
-            var challenge = challengeLocalDataSource.findChallengeById(id)
+            var savedChallenge = challengeLocalDataSource.findChallengeById(id)
 
-            if (challenge.description.isNullOrBlank()) {
-                challenge = challengeRemoteDataSource.findChallengeById(id)
-                challengeLocalDataSource.update(challenge)
+            if (savedChallenge.description.isNullOrBlank()) {
+                val remoteChallenge = challengeRemoteDataSource.findChallengeById(id)
+                savedChallenge = savedChallenge.copy(description = remoteChallenge.description)
+                challengeLocalDataSource.update(savedChallenge)
             }
 
-            Resource.success(challenge)
+            Resource.success(savedChallenge)
         } catch (throwable: Throwable) {
             Resource.error(throwable = throwable)
         }

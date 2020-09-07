@@ -20,7 +20,7 @@ class ChallengeDetailsViewModel(
     private val _challengeDetailsResource: LiveData<Resource<Challenge>> = _challenge.switchMap {
         liveData {
             emit(Resource.loading())
-            emit(challengeRepository.getChallengeDetails(it.id))
+            emit(challengeRepository.getChallengeDetails(it.codewarsID))
         }
     }
 
