@@ -14,7 +14,7 @@ interface ChallengeDao {
     @Query("SELECT * FROM Challenge WHERE creatorUsername = :username")
     fun findByCreator(username: String): DataSource.Factory<Int, Challenge>
 
-    @Query("SELECT * FROM Challenge c INNER JOIN UserCompletedChallenge ucc ON ucc.challengeId = c.id WHERE ucc.username = :username")
+    @Query("SELECT c.* FROM Challenge c INNER JOIN UserCompletedChallenge ucc ON ucc.challengeId = c.id WHERE ucc.username = :username")
     fun findCompletedChallenges(username: String): DataSource.Factory<Int, Challenge>
 
     @Query("SELECT * FROM Challenge WHERE id = :id")
