@@ -24,16 +24,11 @@ class ChallengeRepository @Inject constructor(
     ): LiveData<Resource<PagedList<Challenge>>> {
         val resource = MediatorLiveData<Resource<PagedList<Challenge>>>()
 
-        val config = Config(
-            pageSize = CHALLENGES_DEFAULT_PAGE_SIZE,
-            enablePlaceholders = true,
-            maxSize = CHALLENGES_MAX_ELEMENTS_IN_MEMORY
-        )
-
         val boundaryCallback = ChallengeBoundaryCallback(
-            { page -> this.loadAndSaveChallenges(page, challengeType, user) },
-            { resource.postValue(Resource.loading(shouldShowLoading = it)) },
-            { resource.postValue(Resource.error(throwable = it)) }
+            loadChallenges = { page -> this.loadAndSaveChallenges(page, challengeType, user) },
+            updateLoadingStatus = { resource.postValue(Resource.loading(shouldShowLoading = it)) },
+            onError = { resource.postValue(Resource.error(throwable = it)) },
+            onEndOfList = { resource.postValue(Resource.info(endOfList = true)) }
         )
 
         val dataSourceFactory = when (challengeType) {
@@ -42,16 +37,22 @@ class ChallengeRepository @Inject constructor(
         }
 
         val pagedListLiveData = dataSourceFactory.toLiveData(
-            config = config,
+            config = getPagingConfig(),
             boundaryCallback = boundaryCallback
         )
 
         resource.addSource(pagedListLiveData) {
-            resource.value = Resource.success(it, boundaryCallback.reachedOnEndOfList)
+            resource.value = Resource.success(it)
         }
 
         return resource
     }
+
+    private fun getPagingConfig() = Config(
+        pageSize = CHALLENGES_DEFAULT_PAGE_SIZE,
+        enablePlaceholders = true,
+        maxSize = CHALLENGES_MAX_ELEMENTS_IN_MEMORY
+    )
 
     private fun loadAndSaveChallenges(
         page: Int,

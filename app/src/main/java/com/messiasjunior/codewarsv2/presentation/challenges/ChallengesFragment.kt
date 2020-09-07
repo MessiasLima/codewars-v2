@@ -75,10 +75,6 @@ class ChallengesFragment : Fragment() {
         }
 
         viewModel.challenges.observe(viewLifecycleOwner, Observer(challengesAdapter::submitList))
-
-        viewModel.reachedOnEndOfListEvent.observe(viewLifecycleOwner) {
-            challengesAdapter.showEndOfListIndicator = it
-        }
     }
 
     private fun setupChallengeClickedEventHandler() {

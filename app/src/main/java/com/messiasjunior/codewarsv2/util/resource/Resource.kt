@@ -12,12 +12,14 @@ class Resource<out T> private constructor(
     enum class Status {
         SUCCESS,
         ERROR,
-        LOADING
+        LOADING,
+        INFO
     }
 
     fun isLoading() = status == Status.LOADING
     fun isError() = status == Status.ERROR
     fun isSuccess() = status == Status.SUCCESS
+    fun isInfo() = status == Status.INFO
 
     companion object {
 
@@ -43,6 +45,14 @@ class Resource<out T> private constructor(
                 Status.LOADING,
                 data,
                 shouldShowLoading = shouldShowLoading
+            )
+        }
+
+        fun <T> info(data: T? = null, endOfList: Boolean? = null): Resource<T> {
+            return Resource(
+                Status.INFO,
+                data,
+                endOfList = endOfList
             )
         }
     }

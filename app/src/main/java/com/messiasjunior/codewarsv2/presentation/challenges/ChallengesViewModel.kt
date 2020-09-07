@@ -47,8 +47,8 @@ class ChallengesViewModel(
 
     val reachedOnEndOfListEvent: LiveData<Boolean> = MediatorLiveData<Boolean>().apply {
         addSource(_challengesResource) {
-            if (it.isSuccess()) {
-                value = it.endOfList
+            if (it.isSuccess() || it.isInfo()) {
+                value = it.endOfList == true && isEmpty.value != true
             }
         }
     }

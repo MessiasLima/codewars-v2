@@ -8,6 +8,7 @@ class ChallengeBoundaryCallback(
     private val loadChallenges: (page: Int) -> ResponseDetails,
     private val updateLoadingStatus: (isLoading: Boolean) -> Unit,
     private val onError: (throwable: Throwable?) -> Unit,
+    private val onEndOfList: () -> Unit
 ) : PagedList.BoundaryCallback<Challenge>() {
     private var currentPage = 0
     var reachedOnEndOfList = false
@@ -36,6 +37,10 @@ class ChallengeBoundaryCallback(
         }
 
         reachedOnEndOfList = details.endOfList == true
+
+        if (reachedOnEndOfList) {
+            onEndOfList.invoke()
+        }
     }
 }
 
