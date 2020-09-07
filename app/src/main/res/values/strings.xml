@@ -2,11 +2,12 @@
     <!--    General     -->
     <string name="app_name">Codewars</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="verify_network_connection">Please verify your internet connection</string>
 
     <!--    Home     -->
     <string name="search_by_username">Search by username</string>
     <string name="search">Search</string>
-    <string name="user_not_found_error_message">User \"%1$s\" not found</string>
+    <string name="user_not_found">User \"%1$s\" not found</string>
     <string name="generic_error_message">An unexpected error occurred</string>
     <string name="rank">Rank</string>
     <string name="best_language_label">Best language</string>

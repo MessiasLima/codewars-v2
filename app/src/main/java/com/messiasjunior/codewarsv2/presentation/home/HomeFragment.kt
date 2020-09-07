@@ -22,6 +22,7 @@ import com.messiasjunior.codewarsv2.repository.UserRepository
 import com.messiasjunior.codewarsv2.util.event.EventObserver
 import com.messiasjunior.codewarsv2.util.resource.ResourceObserver
 import dagger.android.support.AndroidSupportInjection
+import java.io.IOException
 import javax.inject.Inject
 
 class HomeFragment : Fragment() {
@@ -69,10 +70,8 @@ class HomeFragment : Fragment() {
             viewLifecycleOwner,
             EventObserver {
                 val message = when (it) {
-                    is UserNotFountException -> getString(
-                        R.string.user_not_found_error_message,
-                        it.message
-                    )
+                    is UserNotFountException -> getString(R.string.user_not_found, it.message)
+                    is IOException -> getString(R.string.verify_network_connection)
                     else -> getString(R.string.generic_error_message)
                 }
 
