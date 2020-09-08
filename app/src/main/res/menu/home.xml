@@ -9,6 +9,7 @@
         app:showAsAction="collapseActionView|ifRoom" />
 
     <item
+        android:id="@+id/menuHomeSort"
         android:icon="@drawable/ic_sort"
         android:title="@string/sort_options"
         app:showAsAction="always">

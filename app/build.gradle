@@ -54,6 +54,9 @@ ext {
     pagingVersion = '2.1.2'
     materialComponentsVersion = "1.2.1"
     markwonVersion = '4.5.1'
+    androidXLegacySupoort = '1.0.0'
+    androidXTestVersion = '1.3.0'
+    mockkVersion = '1.9.3'
 }
 
 dependencies {
@@ -73,8 +76,8 @@ dependencies {
     implementation "androidx.room:room-ktx:$roomVersion"
     implementation "androidx.paging:paging-runtime-ktx:$pagingVersion"
     implementation "com.google.android.material:material:$materialComponentsVersion"
-    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
-    implementation"io.noties.markwon:core:$markwonVersion"
+    implementation "androidx.legacy:legacy-support-v4:$androidXLegacySupoort"
+    implementation "io.noties.markwon:core:$markwonVersion"
 
     kapt "com.google.dagger:dagger-android-processor:$daggerVersion"
     kapt "com.google.dagger:dagger-compiler:$daggerVersion"
@@ -83,6 +86,10 @@ dependencies {
     testImplementation "junit:junit:$junitVersion"
 
     androidTestImplementation "androidx.test.ext:junit:$testExtJunitVersion"
+    androidTestImplementation "androidx.test.ext:junit-ktx:$testExtJunitVersion"
     androidTestImplementation "androidx.test.espresso:espresso-core:$espressoVersion"
-
+    androidTestImplementation "androidx.test:runner:$androidXTestVersion"
+    androidTestImplementation "androidx.test:rules:$androidXTestVersion"
+    androidTestImplementation "androidx.test:core-ktx:$androidXTestVersion"
+    androidTestImplementation "io.mockk:mockk-android:$mockkVersion"
 }
