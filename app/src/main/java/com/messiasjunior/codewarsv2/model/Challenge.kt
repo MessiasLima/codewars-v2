@@ -15,11 +15,11 @@ data class Challenge(
     @SerializedName("id")
     val codewarsID: String,
     val name: String?,
-    val description: String?,
-    val tags: List<String>?,
-    val url: String?,
-    val creatorUsername: String?,
-    val creatorUrl: String?
+    val description: String? = null,
+    val tags: List<String>? = null,
+    val url: String? = null,
+    val creatorUsername: String? = null,
+    val creatorUrl: String? = null
 ) : Parcelable
 
 enum class ChallengeType {

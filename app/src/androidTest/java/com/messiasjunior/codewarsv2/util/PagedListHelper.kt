@@ -31,6 +31,6 @@ fun <T> getPagedListFrom(list: List<T>): LiveData<PagedList<T>> {
     }.toLiveData(pageSize = list.size + 1)
 }
 
-fun <T> getResourcePagedListFrom(list: List<T>): LiveData<Resource<PagedList<T>>> {
-    return getPagedListFrom(list).map { Resource.success(it) }
+fun <T> getResourcePagedListFrom(list: List<T>, endOfList: Boolean? = null): LiveData<Resource<PagedList<T>>> {
+    return getPagedListFrom(list).map { Resource.success(it, endOfList = endOfList) }
 }

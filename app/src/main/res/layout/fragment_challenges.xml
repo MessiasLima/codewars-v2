@@ -24,9 +24,11 @@
             app:layout_constraintBottom_toTopOf="@id/challengesEndOfListIndicator"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            tools:listitem="@layout/list_item_challenge" />
 
         <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/challengesEmptyListIndicator"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/empty_list"
@@ -38,6 +40,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.core.widget.ContentLoadingProgressBar
+            android:id="@+id/challengesProgressBar"
             style="@style/Widget.AppCompat.ProgressBar.Horizontal"
             android:layout_width="0dp"
             android:layout_height="wrap_content"

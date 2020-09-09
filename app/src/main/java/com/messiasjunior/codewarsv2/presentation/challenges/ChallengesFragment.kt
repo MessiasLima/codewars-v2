@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.VisibleForTesting
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -111,11 +112,14 @@ class ChallengesFragment : Fragment() {
 
         fun create(challengeType: ChallengeType, user: User): ChallengesFragment {
             val fragment = ChallengesFragment()
-            fragment.arguments = bundleOf(
-                Pair(ARGUMENT_CHALLENGE_TYPE, challengeType),
-                Pair(ARGUMENT_USER, user)
-            )
+            fragment.arguments = getBundle(challengeType, user)
             return fragment
         }
+
+        @VisibleForTesting
+        fun getBundle(challengeType: ChallengeType, user: User) = bundleOf(
+            Pair(ARGUMENT_CHALLENGE_TYPE, challengeType),
+            Pair(ARGUMENT_USER, user)
+        )
     }
 }
