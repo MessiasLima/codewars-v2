@@ -23,6 +23,12 @@ testing libraries
 - [AndroidX testing libraries](https://developer.android.com/training/testing?hl=en)(Espresso, JUnit, Hamcrest)
 - [Mockk](https://mockk.io/)
 
+## Development tools
+
+- [Ktlint](https://ktlint.github.io/) was added to help to maintain the code style and quality
+- [Netris commit lint](https://plugins.gradle.org/plugin/ru.netris.commitlint) was added to assure that the commits are matching the [conventional commit specification](https://www.conventionalcommits.org/en/v1.0.0/)
+- [Gradle Git Hook plugin](https://github.com/STAR-ZERO/gradle-githook) was added to integrate the lint plugins above on git-hooks lifecycle
+
 ## License
 
     MIT License
