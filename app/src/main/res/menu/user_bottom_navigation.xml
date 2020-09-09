@@ -6,7 +6,7 @@
         android:title="@string/completed_challenges" />
 
     <item
-        android:id="@+id/userBottomAuthoredCompleted"
+        android:id="@+id/userBottomNavigationAuthored"
         android:icon="@drawable/ic_authored"
         android:title="@string/authored_challenges" />
 </menu>

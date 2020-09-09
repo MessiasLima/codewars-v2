@@ -5,6 +5,8 @@ import androidx.fragment.app.testing.launchFragmentInContainer
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
+import androidx.test.espresso.action.ViewActions.swipeLeft
+import androidx.test.espresso.action.ViewActions.swipeRight
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.hasChildCount
 import androidx.test.espresso.matcher.ViewMatchers.isAssignableFrom
@@ -20,6 +22,7 @@ import com.messiasjunior.codewarsv2.presentation.challenges.ChallengesViewModel
 import com.messiasjunior.codewarsv2.repository.ChallengeRepository
 import com.messiasjunior.codewarsv2.util.createFakeFragmentInjector
 import com.messiasjunior.codewarsv2.util.getResourcePagedListFrom
+import com.messiasjunior.codewarsv2.util.hasCheckedItem
 import com.messiasjunior.codewarsv2.util.nthChildOf
 import io.mockk.every
 import io.mockk.mockk
@@ -93,5 +96,21 @@ class UserFragmentTest {
 
         onView(nthChildOf(withId(R.id.userViewPager), 1))
             .check(matches(not(isDisplayed())))
+    }
+
+    @Test
+    fun should_select_bottom_navigation_button_when_swipe_view_pager() {
+        onView(withId(R.id.userBottomNavigation))
+            .check(matches(hasCheckedItem(R.id.userBottomNavigationCompleted)))
+
+        onView(withId(R.id.userViewPager)).perform(swipeLeft())
+
+        onView(withId(R.id.userBottomNavigation))
+            .check(matches(hasCheckedItem(R.id.userBottomNavigationAuthored)))
+
+        onView(withId(R.id.userViewPager)).perform(swipeRight())
+
+        onView(withId(R.id.userBottomNavigation))
+            .check(matches(hasCheckedItem(R.id.userBottomNavigationCompleted)))
     }
 }

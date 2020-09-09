@@ -51,7 +51,7 @@ class UserFragment : Fragment() {
     private fun setupBottomNavigation() {
         userBottomNavigation.setOnNavigationItemSelectedListener {
             val type = when (it.itemId) {
-                R.id.userBottomAuthoredCompleted -> ChallengeType.AUTHORED
+                R.id.userBottomNavigationAuthored -> ChallengeType.AUTHORED
                 R.id.userBottomNavigationCompleted -> ChallengeType.COMPLETED
                 else -> TODO()
             }
