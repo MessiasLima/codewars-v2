@@ -1,10 +1,12 @@
 package com.messiasjunior.codewarsv2.util
 
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.map
 import androidx.paging.DataSource
 import androidx.paging.PageKeyedDataSource
 import androidx.paging.PagedList
 import androidx.paging.toLiveData
+import com.messiasjunior.codewarsv2.util.resource.Resource
 
 fun <T> getPagedListFrom(list: List<T>): LiveData<PagedList<T>> {
     return object : DataSource.Factory<Int, T>() {
@@ -27,4 +29,8 @@ fun <T> getPagedListFrom(list: List<T>): LiveData<PagedList<T>> {
             }
         }
     }.toLiveData(pageSize = list.size + 1)
+}
+
+fun <T> getResourcePagedListFrom(list: List<T>): LiveData<Resource<PagedList<T>>> {
+    return getPagedListFrom(list).map { Resource.success(it) }
 }
