@@ -4,7 +4,7 @@ buildscript {
     ext.ktlintVersion = '9.3.0'
     ext.gitHookPluginVersion = '1.2.0'
     ext.commitLintPluginVersion = '1.2'
-    ext.navigationComponentVersion = '2.3.0'
+    ext.navigationComponentVersion = '2.3.1'
 
     repositories {
         google()
@@ -13,7 +13,7 @@ buildscript {
     }
 
     dependencies {
-        classpath "com.android.tools.build:gradle:4.0.1"
+        classpath 'com.android.tools.build:gradle:4.1.0'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
         classpath "org.jlleitschuh.gradle:ktlint-gradle:$ktlintVersion"
         classpath "ru.netris:commitlint-plugin:$commitLintPluginVersion"

@@ -29,7 +29,7 @@ class HomeFragment : Fragment() {
     @Inject
     lateinit var viewModelFactory: HomeViewModel.Factory
     private val viewModel by viewModels<HomeViewModel> { viewModelFactory }
-    private lateinit var binding: FragmentHomeBinding
+    private var binding: FragmentHomeBinding? = null
 
     override fun onAttach(context: Context) {
         AndroidSupportInjection.inject(this)
@@ -42,10 +42,10 @@ class HomeFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentHomeBinding.inflate(inflater, container, false)
-        binding.lifecycleOwner = viewLifecycleOwner
-        binding.viewModel = viewModel
+        binding?.lifecycleOwner = viewLifecycleOwner
+        binding?.viewModel = viewModel
         setHasOptionsMenu(true)
-        return binding.root
+        return binding?.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -82,7 +82,7 @@ class HomeFragment : Fragment() {
 
     private fun setupSavedUsersRecyclerView() {
         val userAdapter = UserAdapter(viewModel)
-        with(binding.homeUserRecyclerView) {
+        with(binding!!.homeUserRecyclerView) {
             adapter = userAdapter
             itemAnimator = DefaultItemAnimator()
             layoutManager = LinearLayoutManager(requireContext())
@@ -128,5 +128,10 @@ class HomeFragment : Fragment() {
 
             else -> super.onOptionsItemSelected(item)
         }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        binding = null
     }
 }
